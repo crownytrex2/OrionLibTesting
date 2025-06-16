@@ -1,0 +1,12 @@
+-- StarterPlayer > StarterPlayerScripts > ChatLogger (LocalScript)
+
+local TextChatService = game:GetService("TextChatService")
+
+TextChatService.MessageReceived:Connect(function(message)
+    if message.TextSource then
+        local player = game.Players:GetPlayerByUserId(message.TextSource.UserId)
+        if player then
+            print("[Client ChatLogger] " .. player.Name .. ": " .. message.Text)
+        end
+    end
+end)
