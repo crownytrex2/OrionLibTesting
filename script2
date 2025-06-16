@@ -1,38 +1,47 @@
-local Players = game:GetService("Players")
-local UserInputService = game:GetService("UserInputService")
-local player = Players.LocalPlayer
-local ninjaEvent = player:WaitForChild("ninjaEvent")
-local RunService = game:GetService("RunService")
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+---
+local Window = Rayfield:CreateWindow({
+   Name = "Rayfield Example Window",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "Rayfield Interface Suite",
+   LoadingSubtitle = "by Sirius",
+   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
-local running = false
+   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
 
--- Coroutine to run the loop separately
-local function katanaLoop()
-	while running do
-		-- Fire the swing
-		ninjaEvent:FireServer("swingKatana")
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
 
-		-- Make the character jump
-		local character = player.Character or player.CharacterAdded:Wait()
-		local humanoid = character:FindFirstChildWhichIsA("Humanoid")
-		if humanoid then
-			humanoid.Jump = true
-		end
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Big Hub"
+      Window.ModifyTheme('Bloom')
+   },
 
-		wait(3)
-	end
-end
+   Discord = {
+      Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "RtN6EycZCN", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
 
--- Toggle the running state with K key
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-	if gameProcessed then return end
+   KeySystem = true, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "Zyx Hub V4",
+      Subtitle = "Key System",
+      Note = "dm @crownytrex for a key" -- Use this to tell the user how to get a key
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"HhZ6fKyah6fw8KwjR@VKZ+9#$5bHZ*8ZEg*9C6MpMrwjCyZHCspTBRksb%u+aDqH%DBY?8PgWmuMSUpt-b5B!5&Xu+X3Y?McdHT2vQVGn68U+w5A-Hn$StVmqXk!DEc7","M%8?cV&2Fe8EKd$exA+%mURqw6hTg23q?Ry?S5FTVkZ-TfVxDjbWDcAqjCHpRzY7SH*n88NAQ@SvY9yPbR#9&!wB$+cXUyu-BXxNt$FtbmUkdThc!PneQX9bhum3GNWN"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Main Section")
+local Button = Tab:CreateButton({
+   Name = "Button Example",
+   Callback = function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+   end,
+})
 
-	if input.KeyCode == Enum.KeyCode.K then
-		running = not running
-		print("Script Toggled:", running and "ON" or "OFF")
-		
-		if running then
-			coroutine.wrap(katanaLoop)()
-		end
-	end
-end)
