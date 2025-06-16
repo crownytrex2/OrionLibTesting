@@ -23,11 +23,11 @@ local function katanaLoop()
 	end
 end
 
--- Toggle the running state with Right Control
+-- Toggle the running state with K key
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	if gameProcessed then return end
 
-	if input.KeyCode == Enum.KeyCode.RightControl then
+	if input.KeyCode == Enum.KeyCode.K then
 		running = not running
 		print("Script Toggled:", running and "ON" or "OFF")
 		
